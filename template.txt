@@ -1,0 +1,604 @@
+  // Define the HTML template as a string
+  const template = `
+  <!DOCTYPE html>
+  <html lang="en">
+    <head>
+      <meta charset="UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>${data.fullName} | Résumé</title>
+      <style>
+      @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;900&display=swap");
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
+
+      body {
+        background: lightblue;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+      }
+
+      .container {
+        position: relative;
+        width: 100%;
+        max-width: 1000px;
+        min-width: 100px;
+        min-height: 1000px;
+        margin: 50px;
+        background: #fff;
+        display: grid;
+        grid-template-columns: 1.25fr 2fr;
+        box-shadow: 0 35px 55px rgba(0, 0, 0, 0.1);
+      }
+
+      .container .left-side {
+        position: relative;
+        background: #003147;
+        padding: 40px;
+      }
+
+      .profileText {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-bottom: 20px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .profileText .imgBx {
+        position: relative;
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        overflow: hidden;
+      }
+
+      .profileText .imgBx img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .profileText h2 {
+        color: #fff;
+        font-size: 1.5em;
+        margin-top: 20px;
+        text-align: center;
+        font-weight: 600;
+        line-height: 1.4em;
+      }
+
+      .profileText h2 span {
+        font-size: 0.8em;
+        font-weight: 300;
+      }
+
+      .contact-info {
+        padding-top: 40px;
+      }
+
+      .title {
+        color: #fff;
+        text-transform: uppercase;
+        font-weight: 600;
+        letter-spacing: 1px;
+        margin-bottom: 20px;
+      }
+
+      .contact-info ul {
+        position: relative;
+      }
+
+      a {
+        text-decoration: none;
+        color: #fff;
+      }
+
+      .contact-info ul li {
+        position: relative;
+        list-style: none;
+        margin: 10px 0;
+        cursor: pointer;
+      }
+
+      .contact-info ul li .icon {
+        display: inline-block;
+        width: 30px;
+        font-size: 18px;
+        color: #03a9f4;
+      }
+
+      .language i {
+        color: #03a9f4;
+      }
+
+      .language .lang-icons {
+        display: flex;
+      }
+
+      .language .lang-icon {
+        margin: 5px 20px 0 10px;
+      }
+
+      .contact-info ul li span.icon-text {
+        color: #fff;
+        font-weight: 200;
+        font-size: small;
+      }
+
+      .contact-info ul li span.text {
+        color: #fff;
+        font-weight: 500;
+        font-size: large;
+      }
+
+      .contact-info .language {
+        padding-top: 0px !important;
+      }
+      .contact-info.language .percent {
+        position: relative;
+        width: 100%;
+        height: 6px;
+        background: #081921;
+        display: block;
+        margin-top: 5px;
+      }
+
+      .contact-info.language .percent div {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        background: #03a9f4;
+      }
+
+      .container .right-side {
+        position: relative;
+        background: #fff;
+        padding: 40px;
+      }
+
+      .about {
+        margin-bottom: 50px;
+      }
+
+      .about:last-child {
+        margin-bottom: 0;
+      }
+
+      .title2 {
+        color: #003147;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 10px;
+      }
+
+      .about p {
+        color: #333;
+        font-weight: 500;
+      }
+
+      .education {
+        margin: -20px 0 50px 0;
+      }
+
+      .education li {
+        margin-bottom: 15px;
+        list-style: none;
+      }
+
+      .education h5 {
+        color: #03a9f4;
+        font-weight: 500;
+      }
+
+      .education h4:nth-child(2) {
+        color: #081921;
+        font-weight: 500;
+      }
+
+      .education h4 {
+        color: #081921;
+        font-weight: 300;
+      }
+
+      /* .skills .box{
+    position: relative;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 0.5fr 1fr;
+    justify-content: center;
+    align-items: center;
+} */
+
+      /* .skills .box h4{
+    text-transform: uppercase;
+    width: 100%;
+    color: #848c99;
+    font-weight: 500;
+} */
+
+      /* .skills .box .percent{
+    position: relative;
+    width: 100%;
+    height: 10px;
+    background: #f0f0f0;
+} */
+
+      /* .skills .box .percent div{
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    /* background: #03a9f4; 
+} */
+
+      .interest ul {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+      }
+
+      .interest ul li {
+        list-style: none;
+        color: #333;
+        font-weight: 500;
+        margin: 10px 0;
+      }
+
+      .interest ul li .fa-solid {
+        color: #03a9f4;
+        font-size: 18px;
+        width: 20px;
+        margin-right: 4px;
+      }
+
+      .btn {
+        border: none;
+        width: 100%;
+        align-items: flex-start;
+        height: fit-content;
+        font-weight: 700;
+        display: flex;
+        justify-content: space-between;
+        padding: 6px 14px 0 16px;
+        border-radius: 5px;
+        margin-bottom: 12px;
+      }
+
+      .arrow-rotate {
+        transform: rotateX(180deg);
+        padding: 3px;
+      }
+
+      .panel {
+        display: none;
+        padding-left: 40px;
+        font-weight: 400;
+      }
+
+      .panel p span {
+        font-weight: 700;
+      }
+
+      .toggle-display {
+        display: block;
+      }
+
+      .btn {
+        color: black;
+      }
+
+      .toggle-btn-color {
+        color: black;
+      }
+
+      .resume-btn {
+        width: 70%;
+        margin: 40px auto;
+        margin-bottom: 0px;
+        display: flex;
+        justify-content: center;
+        background-color: #03a9f4;
+        color: #fff;
+        min-height: 60px;
+        border-radius: 20px;
+        align-content: center;
+        align-items: center;
+        font-weight: 600;
+      }
+
+      @media (max-width: 1000px) {
+        .container {
+          margin: 10px;
+          grid-template-columns: repeat(1, 1fr);
+        }
+      }
+
+      @media (max-width: 1100px) {
+        .interest ul {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      @media (max-width: 600px) {
+        .about .box {
+          flex-direction: column;
+        }
+        .interest ul {
+          grid-template-columns: repeat(1, 1fr);
+        }
+
+        .interest ul li {
+          margin-left: 0 !important;
+        }
+        .skills .box {
+          grid-template-columns: repeat(1, 1fr);
+        }
+      }
+      .container-one {
+        margin: 20px;
+        padding: 25px 0px 0px 0px;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        align-items: center;
+        justify-items: center;
+      }
+
+      .container-one .box {
+        position: relative;
+        width: 100px;
+        height: 100px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        justify-items: center;
+        color: #fff;
+        margin: 0 15px 15px 0;
+        border-radius: 20%;
+        background: #003147;
+      }
+
+      .container-one .box p {
+        color: #fff;
+        align-items: center;
+        justify-content: center;
+      }
+
+      @media (max-width: 1000px) {
+        .container-one {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      @media (max-width: 600px) {
+        .container-one {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+    </style>
+    </head>
+    <body>
+      <div class="container">
+        <div class="left-side">
+          <div class="profileText">
+            <div class="imgBx">
+              <img src="./Images/ProfilePic.png" alt="My Pic" />
+            </div>
+            <h2>
+            ${data.fullName} <br /><span
+                >Full-Stack Developer <br />
+                mahabalshrivatsa95@gmail.com</span
+              >
+            </h2>
+          </div>
+  
+          <div class="contact-info">
+            <h3 class="title">Contact Info</h3>
+            <ul>
+              <li>
+                <span class="icon"><i class="fa-solid fa-phone"></i></span>
+                <span class="text">${data.phoneNumber}</span>
+              </li>
+              <li>
+                <span class="icon"><i class="fa-solid fa-envelope"></i></span>
+                <span class="text"
+                  ><a href="mailto:${data.emailAddress}">Mail Me</a>
+                </span>
+              </li>
+              <li>
+                <span class="icon"><i class="fa-brands fa-linkedin"></i></span>
+                <span class="text"
+                  ><a
+                    href=${data.linkedInId}
+                    >My LinkedIn</a
+                  ></span
+                >
+              </li>
+              <li>
+                <span class="icon"><i class="fa-solid fa-location-dot"></i></span>
+                <span class="text">Periyapatna - 571107, Mysuru</span>
+              </li>
+            </ul>
+          </div>
+  
+          <div class="resume-btn">
+            <a href="MAHABAL_BCA_Resume.pdf" download="MAHABAL_BCA_Resume">
+              Download My Résumé
+            </a>
+          </div>
+  
+          <div class="contact-info language">
+            <h3 class="title">Languages ${data.languagesKnown}</h3>
+            <ul>
+              <li>
+                <span class="text">Kannada</span>
+                <span class="percent">
+                  <div style="width: 98%"></div>
+                </span>
+              </li>
+              <li>
+                <span class="text">English</span>
+                <span class="percent">
+                  <div style="width: 98%"></div>
+                </span>
+              </li>
+              <li>
+                <span class="text">Sanskrit</span>
+                <span class="percent">
+                  <div style="width: 50%"></div>
+                </span>
+              </li>
+              <li>
+                <span class="text">Hindi</span>
+                <span class="percent">
+                  <div style="width: 80%"></div>
+                </span>
+              </li>
+              <li>
+                <span class="text">Bengali</span>
+                <span class="percent">
+                  <div style="width: 70%"></div>
+                </span>
+              </li>
+            </ul>
+          </div>
+        </div>
+  
+        <div class="right-side">
+          <div class="about">
+            <h2 class="title2">Profile</h2>
+            <div>
+              <p align="justify">
+                ${data.briefIntroduction}
+              </p>
+            </div>
+          </div>
+  
+          <div class="education">
+            <h2 class="title2">Education</h2>
+  
+            <button class="btn btn-one">
+              Bachelors of Computer Applications (B.C.A)
+              <i
+                class="fa-solid fa-circle-chevron-down arrow-one"
+                style="padding: 4px"
+              ></i>
+            </button>
+            <div class="panel panel-one">
+              <p><span>Passed out</span> : 2019</p>
+              <p><span>University</span> : Manglore University</p>
+              <p><span>College</span> : M.G.M Degree College</p>
+              <p><span>Score : 87.13 %</span></p>
+            </div>
+  
+            <button class="btn btn-two">
+              Pre University College (P.U.C / 12th)
+              <i
+                class="fa-solid fa-circle-chevron-down arrow-two"
+                style="padding: 4px"
+              ></i>
+            </button>
+            <div class="panel panel-two">
+              <p><span>Passed out</span> : 2019</p>
+              <p>
+                <span>College</span> : Sadvidya Semi-Residential P.U.College,
+                Mysore
+              </p>
+              <p><span>Score : 84.33 %</span></p>
+            </div>
+  
+            <button class="btn btn-three">
+              Secondary School Leaving Certificate (S.S.L.C / 10th)
+              <i
+                class="fa-solid fa-circle-chevron-down arrow-three"
+                style="padding: 4px"
+              ></i>
+            </button>
+            <div class="panel panel-three">
+              <p><span>Passed out</span> : 2011</p>
+              <p>
+                <span>School</span> : Pushpa English Medium School, Periyapatna
+              </p>
+              <p><span>Score : 95.68 % </span></p>
+            </div>
+          </div>
+  
+          <div class="about skills">
+            <h2 class="title2">Professional Skills</h2>
+            <div class="container-one">
+              <div class="box">
+                <div>
+                  <h2>Java</h2>
+                  <p>80%</p>
+                </div>
+              </div>
+              <div class="box">
+                <div>
+                  <h2>HTML</h2>
+                  <p>90%</p>
+                </div>
+              </div>
+              <div class="box">
+                <div>
+                  <h2>CSS</h2>
+                  <p>85%</p>
+                </div>
+              </div>
+              <div class="box">
+                <div>
+                  <h2>JS</h2>
+                  <p>75%</p>
+                </div>
+              </div>
+              <div class="box">
+                <div>
+                  <h2>React</h2>
+                  <p>60%</p>
+                </div>
+              </div>
+              <div class="box">
+                <div>
+                  <h2>Python</h2>
+                  <p>40%</p>
+                </div>
+              </div>
+              <div class="box">
+                <div>
+                  <h2>GitHub</h2>
+                  <p>80%</p>
+                </div>
+              </div>
+            </div>
+          </div>
+  
+          <div class="about interest">
+            <h2 class="title2">Interests</h2>
+            <ul>
+              <li><i class="fa-solid fa-wheat-awn"></i> Agriculture</li>
+              <li style="margin-left: 10px">
+                <i class="fa-solid fa-book-open-reader"></i>Reading
+              </li>
+              <li style="margin-left: 10px">
+                <i class="fa-solid fa-headphones"></i>Music
+              </li>
+              <li>
+                <i class="fa-solid fa-person-walking-luggage"></i>Travelling
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </body>
+  </html>  
+  `;
+  //   console.log(template);
